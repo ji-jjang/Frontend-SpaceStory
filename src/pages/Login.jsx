@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { baseApiUrl } from "../constants/baseApiUrl";
 import { useNavigate } from "react-router-dom";
-import api from "../api/axiosInterceptor";
+import axios from "axios";
 import Cookies from "js-cookie";
 
 const onGoogleLogin = () => {
@@ -17,22 +17,22 @@ const onKakaoLogin = () => {
 };
 
 export default function Login() {
-  const [signInInputData, setSignInInputData] = useState({
+  const [loginInputData, setLoginInputData] = useState({
     email: "",
     password: "",
   });
-  const { email, password } = signInInputData;
+  const { email, password } = loginInputData;
   const navigate = useNavigate();
 
   const onChange = (e) => {
     const { name, value } = e.target;
-    setSignInInputData({
-      ...signInInputData,
+    setLoginInputData({
+      ...loginInputData,
       [name]: value,
     });
   };
 
-  const signIn = () => {
+  const login = () => {
     if (!/\S+@\S+\.\S+/.test(email)) {
       alert("유효하지 않은 이메일 형식입니다.");
       return;
@@ -45,7 +45,10 @@ export default function Login() {
 
     (async () => {
       try {
-        const response = await api.post("/api/v1/auth/login", signInInputData);
+        const response = await axios.post(
+          `${baseApiUrl}/api/v1/auth/login`,
+          loginInputData,
+        );
         const { accessToken, refreshToken } = response.data;
 
         Cookies.set("accessToken", accessToken, {
@@ -96,7 +99,7 @@ export default function Login() {
           value={password}
           onChange={onChange}
         />
-        <button onClick={signIn}>로그인</button>
+        <button onClick={login}>로그인</button>
         <button onClick={onGoogleLogin}>Google Login</button>
         <button onClick={onNaverLogin}>Naver Login</button>
         <button onClick={onKakaoLogin}>Kakao Login</button>

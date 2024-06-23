@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory } from "history";
 import { baseApiUrl } from "../constants/baseApiUrl";
 
 const history = createBrowserHistory();
@@ -65,7 +65,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;
