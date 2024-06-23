@@ -16,17 +16,17 @@ jobs:
   Deploy:
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-       node-version: 20
-       cache: 'npm'
-    - run: npm ci
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+      - run: npm ci
 
-    - run: npm run build
-    
-    - name: Sending dist/
-      run: |
+      - run: npm run build
+
+      - name: Sending dist/
+        run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa

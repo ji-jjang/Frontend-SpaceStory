@@ -11,28 +11,28 @@ comments:
        제대로 적용되었는지 확인해주세요.
 
 labels:
-  'bug':
+  "bug":
     include:
       - '\bfix\b'
       - '\bbug\b'
-  'documentation':
+  "documentation":
     include:
       - '\bdocs\b'
-  'enhancement':
+  "enhancement":
     include:
       - '\bfeat\b'
-  'refactor':
+  "refactor":
     include:
       - '\brefactor\b'
-  'chore':
+  "chore":
     include:
       - '\bchore\b'
-  'help wanted':
+  "help wanted":
     include:
       - '\bhelp\b'
-  'question':
+  "question":
     include:
       - '\bquestion\b'
-  'test':
+  "test":
     include:
       - '\btest\b'
