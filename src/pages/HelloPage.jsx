@@ -27,6 +27,7 @@ const HelloPage = () => {
         const { code, msg } = error.response.data;
         alert(`code: ${code}, msg: ${msg}`);
       } else {
+        console.log(error);
         alert("Post Hello 처리 중 문제가 발생했습니다.");
       }
     }

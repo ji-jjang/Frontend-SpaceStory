@@ -20,12 +20,13 @@ export default function Header() {
       Cookies.remove("accessToken");
       setLogin(false);
     } catch (error) {
-        if (error.response) {
-            const { code, msg } = error.response.data;
-            alert(`code: ${code}, msg: ${msg}`);
-          } else {
-            alert("로그아웃 처리 중 문제가 발생했습니다.");
-          }
+      if (error.response) {
+        const { code, msg } = error.response.data;
+        alert(`code: ${code}, msg: ${msg}`);
+      } else {
+        console.log(error);
+        alert("로그아웃 처리 중 문제가 발생했습니다.");
+      }
     }
   };
 

@@ -66,6 +66,7 @@ export default function Login() {
           const { code, msg } = error.response.data;
           alert(`code: ${code}, msg: ${msg}`);
         } else {
+          console.log(error);
           alert("로그인 처리 중 문제가 발생했습니다.");
         }
       }
