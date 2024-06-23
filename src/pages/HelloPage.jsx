@@ -7,7 +7,12 @@ const HelloPage = () => {
       const response = await api.get("/api/v1/hello");
       console.log("GET response:", response.data);
     } catch (error) {
-      console.error("GET request failed:", error);
+      if (error.response) {
+        const { code, msg } = error.response.data;
+        alert(`code: ${code}, msg: ${msg}`);
+      } else {
+        alert("Get Hello 처리 중 문제가 발생했습니다.");
+      }
     }
   };
 
@@ -18,7 +23,12 @@ const HelloPage = () => {
       });
       console.log("POST response:", response.data);
     } catch (error) {
-      console.error("POST request failed:", error);
+      if (error.response) {
+        const { code, msg } = error.response.data;
+        alert(`code: ${code}, msg: ${msg}`);
+      } else {
+        alert("Post Hello 처리 중 문제가 발생했습니다.");
+      }
     }
   };
 

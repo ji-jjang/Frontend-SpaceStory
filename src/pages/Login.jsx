@@ -62,8 +62,12 @@ export default function Login() {
 
         navigate("/");
       } catch (error) {
-        console.log(error);
-        alert("로그인 처리 중 문제가 발생했습니다.");
+        if (error.response) {
+          const { code, msg } = error.response.data;
+          alert(`code: ${code}, msg: ${msg}`);
+        } else {
+          alert("로그인 처리 중 문제가 발생했습니다.");
+        }
       }
     })();
   };
