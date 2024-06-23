@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { baseApiUrl } from "../constants/baseApiUrl";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Register() {
   const [registerInputData, setRegisterInputData] = useState({
@@ -51,7 +52,6 @@ export default function Register() {
 
     (async () => {
       try {
-        console.log("hello");
         const response = await axios.post(
           `${baseApiUrl}/api/v1/auth/register`,
           registerInputData,
@@ -63,6 +63,7 @@ export default function Register() {
           const { code, msg } = error.response.data;
           alert(`code: ${code}, msg: ${msg}`);
         } else {
+          console.log(error);
           alert("회원가입 처리 중 문제가 발생했습니다.");
         }
       }
