@@ -3,13 +3,15 @@ import Login from "./pages/Login";
 import SocialLoginHandler from "./pages/SocialLoginHandler";
 import HelloComponent from "./pages/HelloPage";
 import Register from "./pages/Register";
+import Header from "./components/Header";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <>
-        <div>Hello~!</div>
+        <Header />
+        <HelloComponent />
       </>
     ),
   },
@@ -34,14 +36,6 @@ const router = createBrowserRouter([
     element: (
       <>
         <Register />
-      </>
-    ),
-  },
-  {
-    path: "/hello",
-    element: (
-      <>
-        <HelloComponent />
       </>
     ),
   },

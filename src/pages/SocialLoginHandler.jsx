@@ -33,10 +33,12 @@ export default function SocialLoginHandler() {
           navigate("/");
         })
         .catch((error) => {
-          console.error(
-            "There has been a problem with your axios operation:",
-            error,
-          );
+          if (error.response) {
+            const { code, msg } = error.response.data;
+            alert(`code: ${code}, msg: ${msg}`);
+          } else {
+            alert("OAuth2.0 로그인 처리 중 문제가 발생했습니다.");
+          }
         });
     }
   }, [location]);
