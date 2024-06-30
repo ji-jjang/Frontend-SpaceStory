@@ -48,19 +48,26 @@ export default function Login() {
         const response = await axios.post(
           `${baseApiUrl}/api/v1/auth/login`,
           loginInputData,
+          { withCredentials: true },
         );
-        const { accessToken, refreshToken } = response.data;
 
-        Cookies.set("accessToken", accessToken, {
-          secure: true,
-          sameSite: "Strict",
-        });
-        Cookies.set("refreshToken", refreshToken, {
-          secure: true,
-          sameSite: "Strict",
-        });
+        console.log("response data: ", response.data);
+        if (response.data.redirectUrl) {
+          window.location.href = response.data.redirectUrl;
+        } else {
+          const { accessToken, refreshToken } = response.data;
 
-        navigate("/");
+          Cookies.set("accessToken", accessToken, {
+            secure: true,
+            sameSite: "Strict",
+          });
+          Cookies.set("refreshToken", refreshToken, {
+            secure: true,
+            sameSite: "Strict",
+          });
+
+          navigate("/");
+        }
       } catch (error) {
         if (error.response) {
           const { code, msg } = error.response.data;
