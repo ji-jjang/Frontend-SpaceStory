@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { baseApiUrl } from "../constants/baseApiUrl";
 import { useNavigate } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 
 export default function Register() {
@@ -10,8 +11,10 @@ export default function Register() {
     password: "",
     passwordCheck: "",
   });
-
+  const [captchaToken, setCaptchaToken] = useState(null);
   const { name, email, password, passwordCheck } = registerInputData;
+  const [code, setCode] = useState("");
+
   const navigate = useNavigate();
 
   const onChange = (e) => {
@@ -22,7 +25,53 @@ export default function Register() {
     });
   };
 
+  const handleSendVerificationCode = () => {
+    axios
+
+      .post(`${baseApiUrl}/api/v1/auth/email-verification`, { email })
+      .then((response) => {
+        console.log("인증 코드를 보냈습니다.");
+      })
+      .catch((error) => {
+        if (error.response) {
+          const { code, msg } = error.response.data;
+          alert(`code: ${code}, msg: ${msg}`);
+        } else {
+          console.log(error);
+          alert("인증 코드 전송 중 문제가 발생했습니다.");
+        }
+      });
+  };
+
+  const handleVerifyCode = () => {
+    axios
+      .post(`${baseApiUrl}/api/v1/auth/email-verification/verify`, {
+        email,
+        code,
+      })
+      .then((response) => {
+        console.log("인증 코드가 유효합니다.");
+      })
+      .catch((error) => {
+        if (error.response) {
+          const { code, msg } = error.response.data;
+          alert(`code: ${code}, msg: ${msg}`);
+        } else {
+          console.log(error);
+          alert("인증 코드 검증 중 문제가 발생했습니다.");
+        }
+      });
+  };
+
+  const handleCaptchaChange = (token) => {
+    setCaptchaToken(token);
+  };
+
   const register = () => {
+    if (!captchaToken) {
+      alert("캡챠를 완료하세요.");
+      return;
+    }
     if (!name || name.trim() === "") {
       alert("이름은 비어있을 수 없습니다.");
       return;
@@ -50,11 +99,16 @@ export default function Register() {
       return;
     }
 
+    const toSendData = {
+      ...registerInputData,
+      captchaToken,
+    };
+
     (async () => {
       try {
         const response = await axios.post(
           `${baseApiUrl}/api/v1/auth/register`,
-          registerInputData,
+          toSendData,
         );
         alert("회원가입에 성공했습니다. 로그인 하세요.");
         navigate("/login");
@@ -103,6 +157,18 @@ export default function Register() {
           value={email}
           onChange={onChange}
         />
+        <button onClick={handleSendVerificationCode}>이메일 인증</button>
+        <br />
+        <div>인증 코드</div>
+        <input
+          name="code"
+          type="text"
+          placeholder="인증 코드 입력"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+        />
+        <button onClick={handleVerifyCode}>인증 코드 확인</button>
+
         <div>비밀번호</div>
         <input
           name="password"
@@ -119,6 +185,12 @@ export default function Register() {
           value={passwordCheck}
           onChange={onChange}
         />
+        <div>
+          <ReCAPTCHA
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+            onChange={handleCaptchaChange}
+          />
+        </div>
         <button onClick={register}>회원가입</button>
       </div>
     </div>

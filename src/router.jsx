@@ -4,6 +4,8 @@ import SocialLoginHandler from "./pages/SocialLoginHandler";
 import HelloComponent from "./pages/HelloPage";
 import Register from "./pages/Register";
 import Header from "./components/Header";
+import TwoFactorEmailVerification from "./pages/TwoFactorAuthEmail";
+import TwoFactorTotpVerification from "./pages/TwoFactorAuthTotp";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,22 @@ const router = createBrowserRouter([
     element: (
       <>
         <Register />
+      </>
+    ),
+  },
+  {
+    path: "/login/2fa/email",
+    element: (
+      <>
+        <TwoFactorEmailVerification />
+      </>
+    ),
+  },
+  {
+    path: "/login/2fa/totp",
+    element: (
+      <>
+        <TwoFactorTotpVerification />
       </>
     ),
   },
