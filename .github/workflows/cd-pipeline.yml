@@ -18,6 +18,8 @@ jobs:
           node-version: 20
           cache: "npm"
       - run: npm ci
+      
+      - run: echo "${{ secrets.env }}" > .env
 
       - run: npm run build
 
